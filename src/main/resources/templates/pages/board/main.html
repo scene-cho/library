@@ -8,11 +8,13 @@
 
 <section layout:fragment="section">
 
-    <h1 class="mt-4">Notice</h1>
+    <h1 class="mt-4" th:text="${category}">Category</h1>
     <div class="card mb-4">
         <div class="card-header">
             <i class="fas fa-table mr-1"></i>
-            Notice from admin.
+            Articles in
+            <th:block th:text="${category}">category</th:block>
+            .
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -21,23 +23,26 @@
                     <tr>
                         <th>#</th>
                         <th>Title</th>
+                        <th></th>
                         <th>Writer</th>
                         <th>Date</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr th:each="notice: ${notices}">
-                        <td th:text="${notice.id}">1</td>
-                        <td th:text="${notice.title}" th:onclick="'location.href=\'notices/' + ${notice.id} + '\''">
-                            Title
-                        </td>
-                        <td th:text="${notice.writer}">writer</td>
-                        <td th:text="${notice.date}">date</td>
+                    <tr th:each="article: ${articles}">
+                        <td th:text="${article.id}">1</td>
+                        <td th:text="${article.title}">Title</td>
+                        <!--                        fixme to link in td-->
+                        <td><a th:href="@{/board/{category}/{id}(category=${category}, id=${article.id})}">Read</a></td>
+                        <td th:text="${article.writer}">writer</td>
+                        <td th:text="${article.date}">date</td>
                     </tr>
                     </tbody>
                 </table>
 
-                <button type="button" class="btn btn-secondary" onclick="location.href='notices/form'">Write</button>
+
+                <!--                fixme to button-->
+                <a th:href="@{/board/{category}/form(category=${category})}">Write</a>
 
             </div>
         </div>

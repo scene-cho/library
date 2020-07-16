@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/member}">
-<head>
-    <title>Page</title>
-</head>
+<head><title>Writing...</title></head>
 <body class="sb-nav-fixed">
 
 <section layout:fragment="section">
 
     <article>
-        <h1>Notice Form</h1>
+        <h1>
+            write
+            <th:block th:text="${category}">Category</th:block>
+        </h1>
 
-        <form action="/notices" method="post">
+        <form th:action="@{/board/{category}(category=${category})}" method="post">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="title" name="title">

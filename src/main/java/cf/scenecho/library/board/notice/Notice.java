@@ -1,4 +1,4 @@
-package cf.scenecho.library.notice;
+package cf.scenecho.library.board.notice;
 
 import lombok.*;
 
@@ -19,6 +19,6 @@ public class Notice {
     private Long id;
     private String title;
     private String writer;
-    private String content;
     private LocalDateTime date;
+    private String content;
 }

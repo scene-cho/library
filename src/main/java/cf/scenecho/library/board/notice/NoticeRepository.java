@@ -1,7 +1,6 @@
-package cf.scenecho.library.notice;
+package cf.scenecho.library.board.notice;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NoticeRepository extends JpaRepository<Notice, Long> {
-
 }
