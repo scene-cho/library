@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/member}">
+<head>
+    <title th:text="${notice.title}">Page</title>
+</head>
+<body class="sb-nav-fixed">
+
+<section layout:fragment="section">
+
+    <h1 th:text="${notice.id}">Id</h1>
+    <h1 th:text="${notice.title}">Title</h1>
+
+    <h2 th:text="${notice.writer}">Writer</h2>
+    <h2 th:text="${notice.date}">Date</h2>
+
+    <p th:text="${notice.content}">Content</p>
+
+</section>
+
+</body>
+</html>

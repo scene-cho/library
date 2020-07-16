@@ -19,5 +19,6 @@ public class Notice {
     private Long id;
     private String title;
     private String writer;
+    private String content;
     private LocalDateTime date;
 }
