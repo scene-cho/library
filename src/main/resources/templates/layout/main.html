@@ -2,14 +2,14 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
     <head>
-        <th:block th:replace="/fragment/common/head_meta-link"></th:block>
+        <th:block th:replace="/fragment/head_meta-link"></th:block>
         <title layout:title-pattern="$CONTENT_TITLE : $LAYOUT_TITLE">Member</title>
     </head>
     <body class="sb-nav-fixed">
-        <header th:replace="/fragment/member/body_nav"></header>
+        <header th:replace="/fragment/body_nav"></header>
 
         <div id="layoutSidenav">
-            <nav th:replace="/fragment/member/body_sidebar"></nav>
+            <nav th:replace="/fragment/body_sidebar"></nav>
 
 
             <div id="layoutSidenav_content">
@@ -21,9 +21,9 @@
             </div>
 
             <aside>aside</aside>
-            <footer th:replace="/fragment/common/body_footer">footer</footer>
+            <footer th:replace="/fragment/body_footer">footer</footer>
         </div>
 
-        <script th:replace="/fragment/common/body_script"></script>
+        <script th:replace="/fragment/body_script"></script>
     </body>
 </html>
