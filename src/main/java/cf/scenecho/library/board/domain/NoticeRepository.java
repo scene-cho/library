@@ -1,4 +1,4 @@
-package cf.scenecho.library.board.notice;
+package cf.scenecho.library.board.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
