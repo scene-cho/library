@@ -20,10 +20,15 @@ public class BoardService {
     }
 
     public void postArticle(String category, Article article) {
-        if (category.equals("notices"))
-            ((NoticeRepository) repositoryMapping.getRepository(category)).save(new Notice(article));
-        else
-            ((OpinionRepository) repositoryMapping.getRepository(category)).save(new Opinion(article));
+        switch (category) {
+            case "notices":
+                ((NoticeRepository) repositoryMapping.getRepository(category)).save(new Notice(article));
+                return;
+            case "opinions":
+                ((OpinionRepository) repositoryMapping.getRepository(category)).save(new Opinion(article));
+                return;
+            default:
+        }
     }
 
     public Article getArticle(Long id, String category) {
