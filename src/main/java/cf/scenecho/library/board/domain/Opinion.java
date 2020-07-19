@@ -3,17 +3,16 @@ package cf.scenecho.library.board.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor
+@SequenceGenerator(name = "opinion_sequence_generator", sequenceName = "opinion_sequence", allocationSize = 1)
 public class Opinion implements Article {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "opinion_sequence_generator")
     private Long id;
     private String title;
     private String writer;
