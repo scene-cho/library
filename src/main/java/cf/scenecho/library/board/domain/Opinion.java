@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -20,12 +21,12 @@ public class Opinion implements Article {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_opinion_writer"))
     private Member writer;
     private String content;
-    private LocalDateTime date;
+    private String date;
 
     public Opinion(Article article) {
         this.title = article.getTitle();
         this.writer = (Member) article.getWriter();
         this.content = article.getContent();
-        this.date = LocalDateTime.now();
+        this.date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss"));
     }
 }

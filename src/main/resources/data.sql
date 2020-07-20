@@ -9,11 +9,11 @@ insert into admin(user_id, password, email)
 values ('admin', '4567', 'd@e.f');
 
 insert into notice (id, title, writer_user_id, content, date)
-values (nextval('notice_sequence'), 'Notice Test', 'me', 'Content...', current_timestamp);
+values (nextval('notice_sequence'), 'Notice Test', 'me', 'Content...', '2020.1.1 01:00:00');
 insert into notice (id, title, writer_user_id, content, date)
-values (nextval('notice_sequence'), 'Important Notice', 'admin', 'Text...', current_timestamp);
+values (nextval('notice_sequence'), 'Important Notice', 'admin', 'Text...', '2020.12.31 23:59:59');
 
 insert into opinion(id, title, writer_user_id, content, date)
-values (nextval('opinion_sequence'), 'Opinion Test', 'Kim', 'Opinion...', current_timestamp);
+values (nextval('opinion_sequence'), 'Opinion Test', 'Kim', 'Opinion...', '2020.1.1 01:00:00');
 insert into opinion(id, title, writer_user_id, content, date)
-values (nextval('opinion_sequence'), 'Book Request', 'Lee', 'Gof...', current_timestamp);
+values (nextval('opinion_sequence'), 'Book Request', 'Lee', 'Gof...', '2020.12.31 23:59:59');

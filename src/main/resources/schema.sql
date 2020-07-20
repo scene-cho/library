@@ -24,7 +24,7 @@ create table notice
 (
     id             int8 not null,
     content        varchar(255),
-    date           timestamp,
+    date           varchar(255),
     title          varchar(255),
     writer_user_id varchar(255),
     primary key (id)
@@ -33,7 +33,7 @@ create table opinion
 (
     id             int8 not null,
     content        varchar(255),
-    date           timestamp,
+    date           varchar(255),
     title          varchar(255),
     writer_user_id varchar(255),
     primary key (id)
