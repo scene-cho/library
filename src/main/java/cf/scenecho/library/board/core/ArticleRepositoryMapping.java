@@ -11,13 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class RepositoryMapping {
+public class ArticleRepositoryMapping {
     NoticeRepository noticeRepository;
     OpinionRepository opinionRepository;
     private Map<String, JpaRepository<? extends Article, Long>> map;
 
     @Autowired
-    public RepositoryMapping(NoticeRepository noticeRepository, OpinionRepository opinionRepository) {
+    public ArticleRepositoryMapping(NoticeRepository noticeRepository, OpinionRepository opinionRepository) {
         this.noticeRepository = noticeRepository;
         this.opinionRepository = opinionRepository;
         initMapping();

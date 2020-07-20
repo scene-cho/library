@@ -8,30 +8,30 @@ import java.util.List;
 
 @Service
 public class BoardService {
-    RepositoryMapping repositoryMapping;
+    ArticleRepositoryMapping articleRepositoryMapping;
 
     @Autowired
-    public BoardService(RepositoryMapping repositoryMapping) {
-        this.repositoryMapping = repositoryMapping;
+    public BoardService(ArticleRepositoryMapping articleRepositoryMapping) {
+        this.articleRepositoryMapping = articleRepositoryMapping;
     }
 
     public List<? extends Article> getArticles(String category) {
-        return repositoryMapping.getRepository(category).findAll();
+        return articleRepositoryMapping.getRepository(category).findAll();
     }
 
     public void postArticle(String category, Article article) {
         switch (category) {
             case "notices":
-                ((NoticeRepository) repositoryMapping.getRepository(category)).save(new Notice(article));
+                ((NoticeRepository) articleRepositoryMapping.getRepository(category)).save(new Notice(article));
                 return;
             case "opinions":
-                ((OpinionRepository) repositoryMapping.getRepository(category)).save(new Opinion(article));
+                ((OpinionRepository) articleRepositoryMapping.getRepository(category)).save(new Opinion(article));
                 return;
             default:
         }
     }
 
     public Article getArticle(Long id, String category) {
-        return repositoryMapping.getRepository(category).findById(id).orElse(null);
+        return articleRepositoryMapping.getRepository(category).findById(id).orElse(null);
     }
 }
