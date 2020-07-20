@@ -1,7 +1,7 @@
 package cf.scenecho.library.board.core;
 
 import cf.scenecho.library.board.domain.Article;
-import cf.scenecho.library.board.util.ValidateCategoryPath;
+import cf.scenecho.library.util.ValidatePath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,14 +23,14 @@ public class BoardController {
     }
 
     @GetMapping("/{category}/form")
-    @ValidateCategoryPath
+    @ValidatePath
     public String form(@PathVariable String category, Model model) {
         model.addAttribute("category", category);
         return "pages/board/form";
     }
 
     @GetMapping("/{category}")
-    @ValidateCategoryPath
+    @ValidatePath
     public String getArticles(@PathVariable String category, Model model) {
         List<? extends Article> articles = boardService.getArticles(category);
         model.addAttribute("category", category);
@@ -39,14 +39,14 @@ public class BoardController {
     }
 
     @PostMapping("/{category}")
-    @ValidateCategoryPath
+    @ValidatePath
     public String postArticle(@PathVariable String category, Article article) {
         boardService.postArticle(category, article);
         return "redirect:/board/" + category;
     }
 
     @GetMapping("/{category}/{id}")
-    @ValidateCategoryPath
+    @ValidatePath
     public String getArticle(@PathVariable String category, @PathVariable Long id, Model model) {
         Article article = boardService.getArticle(id, category);
         if (article == null) return "404";
