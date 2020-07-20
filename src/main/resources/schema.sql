@@ -28,11 +28,13 @@ create table member
 (
     user_id  varchar(255) not null,
     password varchar(255),
+    email    varchar(255),
     primary key (user_id)
 );
 create table admin
 (
     user_id  varchar(255) not null,
     password varchar(255),
+    email    varchar(255),
     primary key (user_id)
 );

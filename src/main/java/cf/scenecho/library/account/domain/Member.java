@@ -13,9 +13,11 @@ public class Member implements Account {
     @Id
     String userId;
     String password;
+    String email;
 
     public Member(Account account) {
         this.userId = account.getUserId();
         this.password = account.getPassword();
+        this.email = account.getEmail();
     }
 }

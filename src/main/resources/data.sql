@@ -8,12 +8,12 @@ values (nextval('opinion_sequence'), 'Opinion Test', 'Kim', 'Opinion...', curren
 insert into opinion(id, title, writer, content, date)
 values (nextval('opinion_sequence'), 'Book Request', 'Lee', 'Gof...', current_timestamp);
 
-insert into member(user_id, password)
-values ('me', '123');
-insert into member(user_id, password)
-values ('you', '4567');
+insert into member(user_id, password, email)
+values ('me', '123', 'a@b.c');
+insert into member(user_id, password, email)
+values ('you', '4567', 'b@c.d');
 
-insert into admin(user_id, password)
-values ('ceo', '123');
-insert into admin(user_id, password)
-values ('cto', '4567');
+insert into admin(user_id, password, email)
+values ('ceo', '123', 'c@d.e');
+insert into admin(user_id, password, email)
+values ('cto', '4567', 'd@e.f');
