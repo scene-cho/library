@@ -34,7 +34,7 @@
                         <td th:text="${article.title}">Title</td>
                         <!--                        fixme to link in td-->
                         <td><a th:href="@{/board/{category}/{id}(category=${category}, id=${article.id})}">Read</a></td>
-                        <td th:text="${article.writer}">writer</td>
+                        <td th:text="${article.writer.userId}">writer</td>
                         <td th:text="${article.date}">date</td>
                     </tr>
                     </tbody>

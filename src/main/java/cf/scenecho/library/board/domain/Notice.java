@@ -1,5 +1,6 @@
 package cf.scenecho.library.board.domain;
 
+import cf.scenecho.library.account.domain.Admin;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -15,13 +16,15 @@ public class Notice implements Article {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notice_sequence_generator")
     private Long id;
     private String title;
-    private String writer;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_notice_writer"))
+    private Admin writer;
     private String content;
     private LocalDateTime date;
 
     public Notice(Article article) {
         this.title = article.getTitle();
-        this.writer = article.getWriter();
+        this.writer = (Admin) article.getWriter();
         this.content = article.getContent();
         this.date = LocalDateTime.now();
     }

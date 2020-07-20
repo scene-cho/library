@@ -1,5 +1,7 @@
 package cf.scenecho.library.board.domain;
 
+import cf.scenecho.library.account.domain.Account;
+
 import java.time.LocalDateTime;
 
 public interface Article {
@@ -9,7 +11,7 @@ public interface Article {
 
     String getTitle();
 
-    String getWriter();
+    Account getWriter();
 
     String getContent();
 }
