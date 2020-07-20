@@ -9,14 +9,21 @@
 
 <section layout:fragment="section">
 
-    <!--    fixme design-->
-    <h1 th:text="${article.id}">Id</h1>
-    <h1 th:text="${article.title}">Title</h1>
+    <div class="card-body">
+        <h1>
+            <th:block th:text="${article.title}">Title</th:block>
+            <small class="text-muted">by
+                <th:block th:text="${article.writer}">Writer</th:block>
+            </small>
+        </h1>
 
-    <h2 th:text="${article.writer}">Writer</h2>
-    <h2 th:text="${article.date}">Date</h2>
+        <span th:text="${article.id}">Id</span>,
+        <span th:text="${article.date}">Date</span>
+    </div>
 
-    <p th:text="${article.content}">Content</p>
+    <div class="card-body">
+        <p th:text="${article.content}">Content</p>
+    </div>
 
 </section>
 
