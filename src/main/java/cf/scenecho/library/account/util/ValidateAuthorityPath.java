@@ -1,4 +1,4 @@
-package cf.scenecho.library.board.util;
+package cf.scenecho.library.account.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -7,6 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ValidateCategory {
-
+public @interface ValidateAuthorityPath {
 }
