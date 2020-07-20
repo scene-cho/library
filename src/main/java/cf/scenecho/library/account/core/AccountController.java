@@ -1,6 +1,7 @@
 package cf.scenecho.library.account.core;
 
 import cf.scenecho.library.account.domain.Account;
+import cf.scenecho.library.account.util.ValidateAuthority;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,14 +21,15 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    // aop
     @GetMapping("{authority}/form")
+    @ValidateAuthority
     public String form(@PathVariable String authority, Model model) {
         model.addAttribute("authority", authority);
         return "pages/account/form";
     }
 
     @GetMapping("{authority}")
+    @ValidateAuthority
     public String getAccounts(@PathVariable String authority, Model model) {
         model.addAttribute("authority", authority);
         model.addAttribute("accounts", accountService.getAccounts(authority));
@@ -35,6 +37,7 @@ public class AccountController {
     }
 
     @PostMapping("{authority}")
+    @ValidateAuthority
     public String signUp(@PathVariable String authority, Account account) {
         accountService.signUp(authority, account);
         return "redirect:/";
