@@ -20,17 +20,31 @@ public class AccountService {
 
     public void signUp(Account account) {
         logger.debug("#signUp: account: {}", account);
+        validateAccountId(account);
         accountRepository.save(account);
     }
 
-    public boolean signIn(Account attemptingAccount, HttpSession session) {
+    private void validateAccountId(Account account) {
+        accountRepository.findById(account.getUserId()).ifPresent(m -> {
+            throw new IllegalStateException("Duplicated Id.");
+        });
+    }
+
+    public void signIn(Account attemptingAccount, HttpSession session) {
         logger.debug("#signIn: attemptingAccount: {}, session: {}", attemptingAccount, session);
-        Account account = accountRepository.findById(attemptingAccount.getUserId()).orElse(null);
-        logger.debug("#signIn: account: {}", account);
-        if (account == null) return false;
-        if (!account.getPassword().equals(attemptingAccount.getPassword())) return false;
-        session.setAttribute("account", account);
-        return true;
+        session.setAttribute("account", validateAccount(attemptingAccount));
+    }
+
+    private Account validateAccount(Account attemptingAccount) {
+        Account repoAccount = accountRepository.findById(attemptingAccount.getUserId())
+                .orElseThrow(() -> new IllegalStateException("Non-existing Id."));
+        return validatePassword(repoAccount, attemptingAccount);
+    }
+
+    private Account validatePassword(Account repoAccount, Account attemptingAccount) {
+        if (!repoAccount.getPassword().equals(attemptingAccount.getPassword()))
+            throw new IllegalStateException("Invalid Password.");
+        return repoAccount;
     }
 
     public void signOut(HttpSession session) {
@@ -38,8 +52,8 @@ public class AccountService {
         session.removeAttribute("account");
     }
 
-    // fixme
     public List<Account> accountList() {
+        logger.debug("#accountList");
         return accountRepository.findAll();
     }
 }

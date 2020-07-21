@@ -44,8 +44,8 @@ public class AccountController {
     @PostMapping("/sign-in")
     public String signIn(Account account, HttpSession session) {
         logger.debug("#signIn: account: {}, session: {}", account, session);
-        if (accountService.signIn(account, session)) return "redirect:/";
-        return "/pages/account/sign-in-form";
+        accountService.signIn(account, session);
+        return "redirect:/";
     }
 
     @GetMapping("/sign-out")
