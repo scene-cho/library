@@ -42,4 +42,8 @@ public class AccountService {
         session.setAttribute("account", optionalAccount.get());
         return true;
     }
+
+    public void signOut(HttpSession session) {
+        session.removeAttribute("account");
+    }
 }

@@ -23,21 +23,21 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping("{authority}/sign-up-form")
+    @GetMapping("/{authority}/sign-up-form")
     @ValidatePath
     public String signUpForm(@PathVariable String authority, Model model) {
         model.addAttribute("authority", authority);
         return "pages/account/sign-up-form";
     }
 
-    @GetMapping("{authority}/sign-in-form")
+    @GetMapping("/{authority}/sign-in-form")
     @ValidatePath
     public String signInForm(@PathVariable String authority, Model model) {
         model.addAttribute("authority", authority);
         return "pages/account/sign-in-form";
     }
 
-    @GetMapping("{authority}")
+    @GetMapping("/{authority}")
     @ValidatePath
     public String getAccounts(@PathVariable String authority, Model model) {
         model.addAttribute("authority", authority);
@@ -45,17 +45,24 @@ public class AccountController {
         return "pages/account/main";
     }
 
-    @PostMapping("{authority}")
+    @PostMapping("/{authority}")
     @ValidatePath
     public String signUp(@PathVariable String authority, Account account) {
         accountService.signUp(authority, account);
         return "redirect:/";
     }
 
-    @PostMapping("{authority}/new")
+    @PostMapping("/{authority}/new")
     @ValidatePath
     public String signIn(@PathVariable String authority, Account account, HttpSession session) {
         if (accountService.signIn(authority, account, session)) return "redirect:/";
         return "/pages/account/sign-in-form";
     }
+
+    @GetMapping("/sign-out")
+    public String signOut(HttpSession session) {
+        accountService.signOut(session);
+        return "redirect:/";
+    }
+
 }
