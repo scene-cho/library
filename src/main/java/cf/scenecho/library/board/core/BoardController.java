@@ -15,7 +15,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/board")
 public class BoardController {
-    BoardService boardService;
+    private final BoardService boardService;
 
     @Autowired
     public BoardController(BoardService boardService) {

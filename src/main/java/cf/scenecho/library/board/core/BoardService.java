@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public class BoardService {
-    ArticleRepositoryMapping articleRepositoryMapping;
+    private final ArticleRepositoryMapping articleRepositoryMapping;
 
     @Autowired
     public BoardService(ArticleRepositoryMapping articleRepositoryMapping) {

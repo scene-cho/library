@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public class AccountService {
-    AccountRepositoryMapping accountRepositoryMapping;
+    private final AccountRepositoryMapping accountRepositoryMapping;
 
     @Autowired
     public AccountService(AccountRepositoryMapping accountRepositoryMapping) {

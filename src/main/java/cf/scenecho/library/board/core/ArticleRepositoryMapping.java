@@ -12,19 +12,19 @@ import java.util.Map;
 
 @Component
 public class ArticleRepositoryMapping {
-    NoticeRepository noticeRepository;
-    OpinionRepository opinionRepository;
-    private Map<String, JpaRepository<? extends Article, Long>> map;
+    private final NoticeRepository noticeRepository;
+    private final OpinionRepository opinionRepository;
+    private final Map<String, JpaRepository<? extends Article, Long>> map;
 
     @Autowired
     public ArticleRepositoryMapping(NoticeRepository noticeRepository, OpinionRepository opinionRepository) {
         this.noticeRepository = noticeRepository;
         this.opinionRepository = opinionRepository;
+        this.map = new HashMap<>();
         initMapping();
     }
 
     private void initMapping() {
-        this.map = new HashMap<>();
         map.put("notices", noticeRepository);
         map.put("opinions", opinionRepository);
     }

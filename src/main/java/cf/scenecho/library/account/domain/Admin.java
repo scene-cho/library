@@ -11,9 +11,9 @@ import javax.persistence.Id;
 @NoArgsConstructor
 public class Admin implements Account {
     @Id
-    String userId;
-    String password;
-    String email;
+    private String userId;
+    private String password;
+    private String email;
 
     public Admin(Account account) {
         this.userId = account.getUserId();

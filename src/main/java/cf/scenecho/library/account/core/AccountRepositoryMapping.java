@@ -12,20 +12,19 @@ import java.util.Map;
 
 @Component
 public class AccountRepositoryMapping {
-    MemberRepository memberRepository;
-    AdminRepository adminRepository;
-    private Map<String, JpaRepository<? extends Account, String>> map;
+    private final MemberRepository memberRepository;
+    private final AdminRepository adminRepository;
+    private final Map<String, JpaRepository<? extends Account, String>> map;
 
     @Autowired
-
     public AccountRepositoryMapping(MemberRepository memberRepository, AdminRepository adminRepository) {
         this.memberRepository = memberRepository;
         this.adminRepository = adminRepository;
+        map = new HashMap<>();
         initMapping();
     }
 
     private void initMapping() {
-        map = new HashMap<>();
         map.put("members", memberRepository);
         map.put("admins", adminRepository);
     }
