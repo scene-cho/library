@@ -1,36 +1,41 @@
-<nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">Library X</a>
-    <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i>
-    </button>
-    <!-- Navbar Search-->
-    <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
-        <div class="input-group">
-            <input class="form-control" type="text" placeholder="Search for..." aria-label="Search"
-                   aria-describedby="basic-addon2"/>
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="nav">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Library X</a>
+        <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i>
+        </button>
+        <!-- Navbar Search-->
+        <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+            <div class="input-group">
+                <input class="form-control" type="text" placeholder="Search for..." aria-label="Search"
+                       aria-describedby="basic-addon2"/>
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>
+                </div>
             </div>
-        </div>
-    </form>
-    <!-- Navbar-->
-    <ul class="navbar-nav ml-auto ml-md-0">
-        <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
-               aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
-            <!--            if !signIn-->
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="/account/members/sign-in-form">SignIn</a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="/account/members/sign-up-form">SignUp_members</a>
-                <!--                <a class="dropdown-item" href="/admin/form">AdminSignUp</a>-->
-            </div>
-            <!--            if signIn-->
-            <!--            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">-->
-            <!--                <a class="dropdown-item" href="#">SignOut</a>-->
-            <!--                <div class="dropdown-divider"></div>-->
-            <!--                <a class="dropdown-item" href="sign-in-form.html">MyBooks</a>-->
-            <!--                <a class="dropdown-item" href="sign-in-form.html">MyAccount</a>-->
-            <!--            </div>-->
-        </li>
-    </ul>
-</nav>
+        </form>
+        <!-- Navbar-->
+        <ul class="navbar-nav ml-auto ml-md-0">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                <div th:if="${session.isEmpty()}" class="dropdown-menu dropdown-menu-right"
+                     aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="/account/members/sign-in-form">SignIn</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/account/members/sign-up-form">SignUp_member</a>
+                    <a class="dropdown-item" href="/account/admins/sign-up-form">SignUp_admin</a>
+                </div>
+                <div th:unless="${session.isEmpty()}" class="dropdown-menu dropdown-menu-right"
+                     aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="#">SignOut</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="sign-in-form.html">MyBooks</a>
+                    <a class="dropdown-item" href="sign-in-form.html">MyAccount</a>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+</html>

@@ -6,7 +6,7 @@
         <title layout:title-pattern="$CONTENT_TITLE : $LAYOUT_TITLE">Library</title>
     </head>
     <body class="sb-nav-fixed">
-        <header th:replace="/fragment/body_nav"></header>
+        <header th:replace="~{/fragment/body_nav :: nav}"></header>
 
         <div id="layoutSidenav">
             <nav th:replace="/fragment/body_sidebar"></nav>

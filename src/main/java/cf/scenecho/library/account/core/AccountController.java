@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/account")
 public class AccountController {
@@ -52,8 +54,8 @@ public class AccountController {
 
     @PostMapping("{authority}/new")
     @ValidatePath
-    public String signIn(@PathVariable String authority, Account account) {
-        if (accountService.signIn(authority, account)) return "redirect:/";
+    public String signIn(@PathVariable String authority, Account account, HttpSession session) {
+        if (accountService.signIn(authority, account, session)) return "redirect:/";
         return "/pages/account/sign-in-form";
     }
 }
