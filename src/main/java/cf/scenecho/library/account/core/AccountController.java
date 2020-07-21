@@ -21,11 +21,18 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping("{authority}/form")
+    @GetMapping("{authority}/sign-up-form")
     @ValidatePath
-    public String form(@PathVariable String authority, Model model) {
+    public String signUpForm(@PathVariable String authority, Model model) {
         model.addAttribute("authority", authority);
-        return "pages/account/form";
+        return "pages/account/sign-up-form";
+    }
+
+    @GetMapping("{authority}/sign-in-form")
+    @ValidatePath
+    public String signInForm(@PathVariable String authority, Model model) {
+        model.addAttribute("authority", authority);
+        return "pages/account/sign-in-form";
     }
 
     @GetMapping("{authority}")
@@ -41,5 +48,12 @@ public class AccountController {
     public String signUp(@PathVariable String authority, Account account) {
         accountService.signUp(authority, account);
         return "redirect:/";
+    }
+
+    @PostMapping("{authority}/new")
+    @ValidatePath
+    public String signIn(@PathVariable String authority, Account account) {
+        if (accountService.signIn(authority, account)) return "redirect:/";
+        return "/pages/account/sign-in-form";
     }
 }
