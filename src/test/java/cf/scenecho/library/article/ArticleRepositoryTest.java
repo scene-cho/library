@@ -45,6 +45,13 @@ class ArticleRepositoryTest {
     }
 
     @Test
+    void Should_setId_When_save() {
+        assertNull(inputArticle.getId());
+        articleRepository.save(inputArticle);
+        assertNotNull(inputArticle.getId());
+    }
+
+    @Test
     void Should_same_When_find() {
         Article repoArticle = articleRepository.save(inputArticle);
         Optional<Article> foundArticle = articleRepository.findByTitle(repoArticle.getTitle());
@@ -73,10 +80,10 @@ class ArticleRepositoryTest {
     }
 
     @Test
-    void Should_doesNotContainNotEqualElement_When_findAll() {
+    void Should_increaseSize_When_saveAndFindAll() {
+        assertEquals(0, articleRepository.findAll().size());
         articleRepository.save(inputArticle);
-        Article notEqualArticleWithSameId = Article.builder().id(inputArticle.getId()).build();
-        assertThat(articleRepository.findAll()).doesNotContain(notEqualArticleWithSameId);
+        assertEquals(1, articleRepository.findAll().size());
     }
 
     @Test

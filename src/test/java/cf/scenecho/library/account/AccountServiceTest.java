@@ -9,7 +9,6 @@ import org.springframework.mock.web.MockHttpSession;
 
 import javax.servlet.http.HttpSession;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -88,6 +87,18 @@ class AccountServiceTest {
         assertEquals(EXCEPTION_MESSAGE_FOR_NON_EXISTING_ID, e.getMessage());
         assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
     }
+
+    // Test for signOut()
+
+    @Test
+    void Should_sessionHasNoAttribute_When_signOut() {
+        accountService.signUp(inputAccount);
+        accountService.signIn(Account.builder().userId(inputAccount.getUserId()).password(inputAccount.getPassword()).build(), session);
+        assertNotNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+        accountService.signOut(session);
+        assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+    }
+
 // todo
 //    public List<Account> accountList() {
 //        return accountRepository.findAll();
