@@ -1,4 +1,4 @@
-package cf.scenecho.library.account;
+package cf.scenecho.library.article;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +13,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(AccountController.class)
-class AccountControllerTest {
+@WebMvcTest(ArticleController.class)
+class ArticleControllerTest {
 
     @MockBean
-    AccountService mockAccountService;
+    ArticleService mockArticleService;
 
     @Autowired
     MockMvc mockMvc;
@@ -27,14 +27,12 @@ class AccountControllerTest {
 
     static {
         getPoints = new ArrayList<>();
-        getPoints.add("/accounts"); // get list of Accounts.
-        getPoints.add("/accounts/sign-up"); // form
-        getPoints.add("/accounts/sign-in"); // form
+        getPoints.add("/articles"); // get list of articles.
+//        getPoints.add("/articles/1"); // read an article.
+        getPoints.add("/articles/form"); // form
 
         postPoints = new ArrayList<>();
-        postPoints.add("/accounts"); // post an account.
-        postPoints.add("/accounts/sign-in"); // session
-        postPoints.add("/accounts/sign-out");  // session
+        postPoints.add("/articles"); // post an article.
     }
 
     @Test
