@@ -1,5 +1,6 @@
 package cf.scenecho.library.article;
 
+import cf.scenecho.library.account.Account;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -37,12 +38,16 @@ class ArticleControllerTest {
 
     @Test
     void Should_ok_When_getRequestAtEndPoints() throws Exception {
-        for (String point : getPoints) mockMvc.perform(get(point)).andExpect(status().isOk());
+        for (String point : getPoints)
+            mockMvc.perform(get(point).sessionAttr("account", new Account()))
+                    .andExpect(status().isOk());
     }
 
     @Test
     void Should_redirect_When_postRequestAtEndPoints() throws Exception {
-        for (String point : postPoints) mockMvc.perform(post(point)).andExpect(status().is3xxRedirection());
+        for (String point : postPoints)
+            mockMvc.perform(post(point))
+                    .andExpect(status().is3xxRedirection());
     }
 
 }

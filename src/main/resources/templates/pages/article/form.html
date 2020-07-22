@@ -13,14 +13,10 @@
             <th:block th:text="${category}">Category</th:block>
         </h1>
 
-        <form th:action="@{/board/{category}(category=${category})}" method="post">
+        <form th:action="@{/articles}" method="post">
             <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" id="title" name="title">
-            </div>
-            <div class="form-group">
-                <label for="writer">Writer</label>
-                <input type="text" class="form-control" id="writer" name="writer">
             </div>
             <div class="form-group">
                 <label for="content">Content</label>

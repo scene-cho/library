@@ -29,7 +29,7 @@ class ArticleRepositoryTest {
     @BeforeEach
     void saveAccountAndBuildArticle() {
         writer = accountRepository.save(Account.builder().userId("writer").build());
-        inputArticle = Article.builder().title("title").writer(writer).content("content").localDateTime(LocalDateTime.now()).noticeFlag(false).build();
+        inputArticle = Article.builder().title("title").writer(writer).content("content").localDateTime("2020. 1. 1").noticeFlag(false).build();
     }
 
     @AfterEach

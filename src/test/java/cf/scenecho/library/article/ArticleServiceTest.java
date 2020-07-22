@@ -29,7 +29,7 @@ class ArticleServiceTest {
     @BeforeEach
     void saveWriterAndBuildArticle() {
         writer = accountRepository.save(Account.builder().userId("writer").build());
-        inputArticle = Article.builder().title("title").writer(writer).content("content").localDateTime(LocalDateTime.now()).noticeFlag(false).build();
+        inputArticle = Article.builder().title("title").content("content").localDateTime("2020. 1. 1").noticeFlag(false).build();
     }
 
     @AfterEach
@@ -48,14 +48,14 @@ class ArticleServiceTest {
     @Test
     void Should_increaseSize_When_post() {
         assertEquals(0, articleService.articleList().size());
-        articleService.postArticle(inputArticle);
+        articleService.postArticle(inputArticle, writer);
         assertEquals(1, articleService.articleList().size());
     }
 
     @Test
     void Should_notIncreaseSize_When_postSameArticle() {
-        articleService.postArticle(inputArticle);
-        articleService.postArticle(inputArticle);
+        articleService.postArticle(inputArticle, writer);
+        articleService.postArticle(inputArticle, writer);
         assertEquals(1, articleService.articleList().size());
     }
 

@@ -17,12 +17,12 @@ import java.time.LocalDateTime;
 public class Article {
     @Id
     @GeneratedValue
-    Long id;
-    String title;
+    private Long id;
+    private String title;
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_article_writer"))
-    Account writer;
-    String content;
-    LocalDateTime localDateTime;
-    Boolean noticeFlag;
+    private Account writer;
+    private String content;
+    private String localDateTime;
+    private Boolean noticeFlag;
 }

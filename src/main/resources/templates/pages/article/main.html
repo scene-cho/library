@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
+<head>
+    <title th:text="${category}">Board</title>
+</head>
+<body class="sb-nav-fixed">
+
+<section layout:fragment="section">
+
+    <h1 class="mt-4" th:text="${category}">Category</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table mr-1"></i>
+            Articles in
+            <th:block th:text="${category}">category</th:block>
+            .
+        </div>
+        <div class="card-body">
+            <div th:each="article: ${articles}">
+                <span th:text="${article.id}">1</span>
+                <a th:href="@{/articles/{id}(id=${article.id})}" th:text="${article.title}">Title</a>
+                <span th:text="${article.writer.userId}">writer</span>
+                <span th:text="${article.getLocalDateTime()}">date</span>
+            </div>
+            <a class="btn-outline-primary" th:href="@{/articles/form}">Write</a>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

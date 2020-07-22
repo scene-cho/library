@@ -55,9 +55,9 @@ public class AccountController {
         return "redirect:/";
     }
 
-    //    fixme
     @GetMapping("")
     public String accountList(Model model) {
+        logger.debug("#accountList: Model: {}", model);
         model.addAttribute("accounts", accountService.accountList());
         return "pages/account/main";
     }
