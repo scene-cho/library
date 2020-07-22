@@ -18,9 +18,9 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
-    public void signUp(Account account) {
+    public Account signUp(Account account) {
         logger.debug("#signUp: account: {}", account);
-        accountRepository.save(validateAccountId(account));
+        return accountRepository.save(validateAccountId(account));
     }
 
     private Account validateAccountId(Account account) {

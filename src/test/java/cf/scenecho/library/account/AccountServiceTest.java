@@ -10,7 +10,7 @@ import org.springframework.mock.web.MockHttpSession;
 import javax.servlet.http.HttpSession;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class AccountServiceTest {
@@ -19,12 +19,17 @@ class AccountServiceTest {
     @Autowired
     AccountRepository accountRepository;
 
-    Account account;
+    Account inputAccount;
     HttpSession session;
+
+    final String SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT = "account";
+    final String EXCEPTION_MESSAGE_FOR_DUPLICATED_ID = "Duplicated Id.";
+    final String EXCEPTION_MESSAGE_FOR_INVALID_PASSWORD = "Invalid Password.";
+    final String EXCEPTION_MESSAGE_FOR_NON_EXISTING_ID = "Non-existing Id.";
 
     @BeforeEach
     void setAccountAndSession() {
-        account = Account.builder().userId("me").password("pass").email("a@b.c").adminFlag(true).build();
+        inputAccount = Account.builder().userId("me").password("pass").email("a@b.c").adminFlag(true).build();
         session = new MockHttpSession();
     }
 
@@ -34,37 +39,55 @@ class AccountServiceTest {
         session.invalidate();
     }
 
-    @Test
-    void Should_When_signUp() {
-        accountService.signUp(account);
-        assertThat(accountRepository.findById(account.getUserId()).orElse(null)).isEqualTo(account);
-        assertThat(accountRepository.findById("other").orElse(null)).isNotEqualTo(account);
+    // Tests for signUp()
 
-        Account newAccount = Account.builder().userId("me").password("password").email("x@y.z").adminFlag(false).build();
-        IllegalStateException e = assertThrows(IllegalStateException.class, () -> accountService.signUp(newAccount));
-        assertThat(e.getMessage()).isEqualTo("Duplicated Id.");
+    @Test
+    void Should_notNull_When_succeedSignUp() {
+        accountService.signUp(inputAccount);
+        assertNotNull(accountRepository.findById(inputAccount.getUserId()).orElse(null));
     }
 
     @Test
-    void signIn() {
-        accountService.signUp(account);
-
-        Account attemptingAccount = account;
-        accountService.signIn(attemptingAccount, session);
-        assertThat(session.getAttribute("account")).isEqualTo(account);
-        session.removeAttribute("account");
-
-        Account invalidPasswordAttemptingAccount = Account.builder().userId(account.getUserId()).password("p").build();
-        IllegalStateException invalidPasswordException = assertThrows(IllegalStateException.class, () -> accountService.signIn(invalidPasswordAttemptingAccount, session));
-        assertThat(invalidPasswordException.getMessage()).isEqualTo("Invalid Password.");
-        session.removeAttribute("account");
-
-        Account nonExistingAttemptingAccount = Account.builder().userId("other").password("p").build();
-        IllegalStateException nonExistingIdException = assertThrows(IllegalStateException.class, () -> accountService.signIn(nonExistingAttemptingAccount, session));
-        assertThat(nonExistingIdException.getMessage()).isEqualTo("Non-existing Id.");
-        session.removeAttribute("account");
+    void Should_throwException_When_failSignUp() {
+        accountService.signUp(inputAccount);
+        Account anotherAccountWithSameId = Account.builder().userId(inputAccount.getUserId()).build();
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> accountService.signUp(anotherAccountWithSameId));
+        assertEquals(EXCEPTION_MESSAGE_FOR_DUPLICATED_ID, e.getMessage());
     }
 
+    // Tests for signIn()
+
+    @Test
+    void Should_sessionHasNoAttribute_When_beforeSignIn() {
+        assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+    }
+
+    @Test
+    void Should_sessionHasAttribute_When_succeedSignIn() {
+        Account account = accountService.signUp(inputAccount);
+        Account validApproach = Account.builder().userId(inputAccount.getUserId()).password(inputAccount.getPassword()).build();
+        accountService.signIn(validApproach, session);
+        Account accountFromSession = (Account) session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT);
+        assertEquals(account, accountFromSession);
+    }
+
+    @Test
+    void Should_throwException_When_failSignInForInvalidPassword() {
+        accountService.signUp(inputAccount);
+        Account invalidPasswordApproach = Account.builder().userId(inputAccount.getUserId()).password("invalid").build();
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> accountService.signIn(invalidPasswordApproach, session));
+        assertEquals(EXCEPTION_MESSAGE_FOR_INVALID_PASSWORD, e.getMessage());
+        assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+    }
+
+    @Test
+    void Should_throwException_When_failSignInForNonExistingId() {
+        accountService.signUp(inputAccount);
+        Account nonExistingIdApproach = Account.builder().userId("nonExistingId").password("password").build();
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> accountService.signIn(nonExistingIdApproach, session));
+        assertEquals(EXCEPTION_MESSAGE_FOR_NON_EXISTING_ID, e.getMessage());
+        assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+    }
 // todo
 //    public List<Account> accountList() {
 //        return accountRepository.findAll();
