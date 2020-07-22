@@ -22,7 +22,7 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    @GetMapping("/sign-up-form")
+    @GetMapping("/sign-up")
     public String signUpForm() {
         logger.debug("#signUpForm");
         return "pages/account/sign-up-form";
@@ -35,7 +35,7 @@ public class AccountController {
         return "redirect:/";
     }
 
-    @GetMapping("/sign-in-form")
+    @GetMapping("/sign-in")
     public String signInForm() {
         logger.debug("#signInForm");
         return "pages/account/sign-in-form";
@@ -48,7 +48,7 @@ public class AccountController {
         return "redirect:/";
     }
 
-    @GetMapping("/sign-out")
+    @PostMapping("/sign-out")
     public String signOut(HttpSession session) {
         logger.debug("#signOut: session: {}", session);
         accountService.signOut(session);
