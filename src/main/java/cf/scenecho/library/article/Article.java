@@ -1,9 +1,7 @@
 package cf.scenecho.library.article;
 
 import cf.scenecho.library.account.Account;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,7 +9,11 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Article {
     @Id
     @GeneratedValue
