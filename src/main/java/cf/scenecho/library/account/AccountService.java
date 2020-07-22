@@ -20,14 +20,14 @@ public class AccountService {
 
     public void signUp(Account account) {
         logger.debug("#signUp: account: {}", account);
-        validateAccountId(account);
-        accountRepository.save(account);
+        accountRepository.save(validateAccountId(account));
     }
 
-    private void validateAccountId(Account account) {
+    private Account validateAccountId(Account account) {
         accountRepository.findById(account.getUserId()).ifPresent(m -> {
             throw new IllegalStateException("Duplicated Id.");
         });
+        return account;
     }
 
     public void signIn(Account attemptingAccount, HttpSession session) {

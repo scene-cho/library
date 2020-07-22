@@ -5,16 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.mock.web.MockHttpSession;
 
 import javax.servlet.http.HttpSession;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
 class AccountServiceTest {
@@ -27,18 +23,19 @@ class AccountServiceTest {
     HttpSession session;
 
     @BeforeEach
-    void setUp() {
+    void setAccountAndSession() {
         account = Account.builder().userId("me").password("pass").email("a@b.c").adminFlag(true).build();
         session = new MockHttpSession();
     }
 
     @AfterEach
-    void tearDown() {
+    void clearRepositoryAndSession() {
         accountRepository.deleteAll();
+        session.invalidate();
     }
 
     @Test
-    void signUp() {
+    void Should_When_signUp() {
         accountService.signUp(account);
         assertThat(accountRepository.findById(account.getUserId()).orElse(null)).isEqualTo(account);
         assertThat(accountRepository.findById("other").orElse(null)).isNotEqualTo(account);
