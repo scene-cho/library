@@ -1,5 +1,7 @@
 package cf.scenecho.library.book;
 
+import cf.scenecho.library.book.borrowing.Borrowing;
+import cf.scenecho.library.book.borrowing.BorrowingService;
 import cf.scenecho.library.util.SessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,12 +18,14 @@ import javax.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/books")
 public class BookController {
-    private final BookService bookService;
     private static final Logger logger = LoggerFactory.getLogger(BookController.class);
+    private final BookService bookService;
+    private final BorrowingService borrowingService;
 
     @Autowired
-    public BookController(BookService bookService) {
+    public BookController(BookService bookService, BorrowingService borrowingService) {
         this.bookService = bookService;
+        this.borrowingService = borrowingService;
     }
 
     @GetMapping("/form")
@@ -47,5 +51,14 @@ public class BookController {
     public String bookDetail(@PathVariable Long id, Model model) {
         model.addAttribute("book", bookService.getBook(id));
         return "pages/book/detail";
+    }
+
+    // borrowings
+
+    @PostMapping("/{bookId}")
+    public String borrowBook(@PathVariable Long bookId, HttpSession session) {
+        if (SessionUtil.hasNoAttribute(session)) return "redirect:/accounts/sign-in";
+        borrowingService.borrowBook(bookId, session);
+        return "redirect:/";
     }
 }
