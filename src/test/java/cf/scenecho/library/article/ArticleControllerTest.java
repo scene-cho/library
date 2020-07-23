@@ -1,6 +1,7 @@
 package cf.scenecho.library.article;
 
 import cf.scenecho.library.account.Account;
+import cf.scenecho.library.util.SessionUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -39,7 +40,7 @@ class ArticleControllerTest {
     @Test
     void Should_ok_When_getRequestAtEndPoints() throws Exception {
         for (String point : getPoints)
-            mockMvc.perform(get(point).sessionAttr("account", new Account()))
+            mockMvc.perform(get(point).sessionAttr(SessionUtil.ACCOUNT, new Account()))
                     .andExpect(status().isOk());
     }
 

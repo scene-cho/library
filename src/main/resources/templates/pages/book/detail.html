@@ -1,10 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/main}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>page</title>
 </head>
-<body>
+<body class="sb-nav-fixed">
 
+<section layout:fragment="section">
+
+    <h1>
+        <th:block th:text="${book.title}">Title</th:block>
+        <small class="text-muted">by
+            <th:block th:text="${book.author}">Author</th:block>
+        </small>
+    </h1>
+
+</section>
+
+<!--        <th:block layout:fragment="page_css">-->
+<!--            <script th:src="@{/my_css}"></script>-->
+<!--        </th:block>-->
+<!--        <th:block layout:fragment="page_js">-->
+<!--            <script th:src="@{/my_js}"></script>-->
+<!--        </th:block>-->
 </body>
 </html>
