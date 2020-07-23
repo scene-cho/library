@@ -23,6 +23,11 @@ public class BookService {
         return bookRepository.findById(id).orElseThrow(() -> new IllegalStateException(ExceptionMessage.NON_EXISTING_ID.toString()));
     }
 
+    public void toggleAvailability(Book book) {
+        book.setAvailable(!book.getAvailable());
+        bookRepository.save(book);
+    }
+
     public void registerBook(Book book) {
         book.setAvailable(true);
         bookRepository.save(book);

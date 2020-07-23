@@ -34,12 +34,4 @@ class BookRepositoryTest {
         assertSame(repoBook, foundBook);
     }
 
-    @Test
-    void Should_update_When() {
-        Book repoBook = bookRepository.save(inputBook);
-        Book foundBook = bookRepository.findById(repoBook.getId()).orElse(null);
-        assert foundBook != null;
-        foundBook.setAvailable(false);
-        assertSame(inputBook, foundBook);
-    }
 }

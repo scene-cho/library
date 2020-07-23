@@ -11,18 +11,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class DebugLogAspect {
     private static final Logger logger = LoggerFactory.getLogger(DebugLogAspect.class);
+    private static final StringBuilder sb = new StringBuilder();
 
     @Around("execution(* cf.scenecho.library..*(..))")
     Object execute(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodInfo = extractMethodInfo(joinPoint);
 
-        logger.debug("[ I N ] " + methodInfo);
-        for (Object arg : joinPoint.getArgs()) logger.debug("  [ arg ] " + arg.toString());
+        sb.setLength(0);
+        for (Object arg : joinPoint.getArgs()) sb.append(arg.toString()).append(" | ");
+        logger.debug("[ IN ] " + methodInfo + " [ args ] " + sb.toString());
 
         Object ret = joinPoint.proceed();
 
-        if (ret != null) logger.debug("  [ ret ] " + ret);
-        logger.debug("[ OUT ] " + methodInfo);
+        sb.setLength(0);
+        if (ret != null) sb.append(ret);
+        logger.debug("[ OUT ] " + methodInfo + " [ return ] " + sb.toString());
 
         return ret;
     }

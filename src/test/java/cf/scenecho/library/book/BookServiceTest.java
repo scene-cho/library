@@ -16,12 +16,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class BookServiceTest {
     @Autowired
     BookService bookService;
+    @Autowired
+    BookRepository bookRepository;
 
     Book book;
 
     @BeforeEach
     void newBook() {
-        book = new Book();
+        book = Book.builder().title("title").author("author").build();
     }
 
     @AfterEach
@@ -42,18 +44,28 @@ class BookServiceTest {
     }
 
     @Test
-    void Should_same_When_get() {
+    void Should_hasId_When_register() {
+        assertNull(book.getId());
+        bookService.registerBook(book);
+        assertNotNull(book.getId());
+    }
+
+    @Test
+    void Should_update_When_toggle() {
         bookService.registerBook(book);
         Book repoBook = bookService.getBook(book.getId());
-        assertSame(book, repoBook);
+        bookService.toggleAvailability(repoBook);
+        assertFalse(repoBook.getAvailable());
+        Book repoBook2 = bookService.getBook(book.getId());
+        assertFalse(repoBook2.getAvailable());
     }
 
     @Test
     void Should_throwException_When_findUnregisteredBook() {
         bookService.registerBook(book);
-        Book repoBook = bookService.getBook(1L);
+        Book repoBook = bookService.getBook(book.getId());
         assertNotNull(repoBook);
-        IllegalStateException e = assertThrows(IllegalStateException.class, () -> bookService.getBook(2L));
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> bookService.getBook(book.getId() + 1));
         assertEquals(ExceptionMessage.NON_EXISTING_ID.toString(), e.getMessage());
     }
 

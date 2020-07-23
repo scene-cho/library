@@ -26,7 +26,7 @@ public class BorrowingService {
     public void borrowBook(Long bookId, HttpSession session) {
         Book book = bookService.getBook(bookId);
         if (!book.getAvailable()) throw new IllegalStateException(ExceptionMessage.NOT_AVAILABLE.toString());
-        book.setAvailable(false);
+        bookService.toggleAvailability(book);
         Borrowing borrowing = Borrowing.builder()
                 .book(book)
                 .borrower(SessionUtil.getAccount(session))
@@ -37,7 +37,7 @@ public class BorrowingService {
 
     public void returnBook(Long id) {
         Borrowing borrowing = borrowingRepository.findById(id).orElseThrow(() -> new IllegalStateException(ExceptionMessage.NON_EXISTING_ID.toString()));
-        borrowing.getBook().setAvailable(true);
+        bookService.toggleAvailability(borrowing.getBook());
         borrowingRepository.delete(borrowing);
     }
 

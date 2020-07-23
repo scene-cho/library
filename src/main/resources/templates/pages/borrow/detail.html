@@ -16,8 +16,9 @@
         </small>
     </h1>
 
-    <form th:action="@{/borrowings/{id}(id=${borrowing.id})}">
-        <input type="hidden" name="_method" value="delete">
+    <form th:action="@{/borrowings/{id}(id=${borrowing.id})}" method="post">
+        <!--        todo-->
+        <!--        <input type="hidden" name="_method" value="delete"/>-->
         <button type="submit">Return</button>
     </form>
 

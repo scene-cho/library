@@ -40,7 +40,7 @@ public class BorrowingController {
         return "/pages/borrow/detail";
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     public String returnBook(@PathVariable Long id, HttpSession session) {
         if (SessionUtil.hasNoAttribute(session)) return "redirect:/accounts/sign-in";
         borrowingService.returnBook(id);
