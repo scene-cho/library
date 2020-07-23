@@ -1,5 +1,7 @@
 package cf.scenecho.library.book;
 
+import cf.scenecho.library.account.Account;
+import cf.scenecho.library.util.SessionUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -37,7 +39,8 @@ class BookControllerTest {
 
     @Test
     void Should_ok_When_getRequestAtEndPoints() throws Exception {
-        for (String url : getPoints) mockMvc.perform(get(url)).andExpect(status().isOk());
+        for (String url : getPoints)
+            mockMvc.perform(get(url).sessionAttr(SessionUtil.ACCOUNT, new Account())).andExpect(status().isOk());
     }
 
     @Test

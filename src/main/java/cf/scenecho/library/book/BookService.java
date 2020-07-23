@@ -19,7 +19,7 @@ public class BookService {
         return bookRepository.findAll();
     }
 
-    public Book bookDetail(Long id) {
+    public Book getBook(Long id) {
         return bookRepository.findById(id).orElseThrow(() -> new IllegalStateException(ExceptionMessage.NON_EXISTING_ID.toString()));
     }
 
