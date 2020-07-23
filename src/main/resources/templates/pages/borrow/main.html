@@ -9,19 +9,12 @@
 
 <section layout:fragment="section">
 
-    <h1>
-        <th:block th:text="${book.title}">Title</th:block>
-        <small class="text-muted">by
-            <th:block th:text="${book.author}">Author</th:block>
-        </small>
-    </h1>
-
-    <form action="/borrowings" method="post">
-        <label>
-            <input type="hidden" th:value="${book.id}" name="bookId">
-        </label>
-        <button type="submit">Borrow</button>
-    </form>
+    <div th:each="borrowing: ${borrowings}">
+        <span th:text="${borrowing.id}">1</span>
+        <a th:href="@{/borrowings/{id}(id=${borrowing.id})}" th:text="${borrowing.book}">Book</a>
+        <span th:text="${borrowing.borrower}">Borrower</span>
+        <span th:text="${borrowing.startDate}">StartDate</span>
+    </div>
 
 </section>
 

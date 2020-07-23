@@ -1,4 +1,4 @@
-package cf.scenecho.library.book.borrowing;
+package cf.scenecho.library.borrowing;
 
 import cf.scenecho.library.book.Book;
 import cf.scenecho.library.book.BookService;
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Service
 public class BorrowingService {
@@ -25,20 +26,26 @@ public class BorrowingService {
     public void borrowBook(Long bookId, HttpSession session) {
         Book book = bookService.getBook(bookId);
         if (!book.getAvailable()) throw new IllegalStateException(ExceptionMessage.NOT_AVAILABLE.toString());
+        book.setAvailable(false);
         Borrowing borrowing = Borrowing.builder()
                 .book(book)
                 .borrower(SessionUtil.getAccount(session))
                 .startDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy. MM. dd")))
                 .build();
         borrowingRepository.save(borrowing);
-        book.setAvailable(false);
     }
 
-    public void returnBook(Long bookId, HttpSession session) {
-        Book book = bookService.getBook(bookId);
-        Borrowing borrowing = borrowingRepository.findByBookAndBorrower(book, SessionUtil.getAccount(session))
-                .orElseThrow(() -> new IllegalStateException(ExceptionMessage.NON_EXISTING_ID.toString()));
+    public void returnBook(Long id) {
+        Borrowing borrowing = borrowingRepository.findById(id).orElseThrow(() -> new IllegalStateException(ExceptionMessage.NON_EXISTING_ID.toString()));
+        borrowing.getBook().setAvailable(true);
         borrowingRepository.delete(borrowing);
-        book.setAvailable(true);
+    }
+
+    public List<Borrowing> myBorrowings(HttpSession session) {
+        return borrowingRepository.findByBorrower(SessionUtil.getAccount(session));
+    }
+
+    public Borrowing getBorrowing(Long id) {
+        return borrowingRepository.findById(id).orElseThrow(() -> new IllegalStateException(ExceptionMessage.NON_EXISTING_ID.toString()));
     }
 }

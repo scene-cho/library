@@ -1,24 +1,26 @@
-package cf.scenecho.library.book.borrowing;
+package cf.scenecho.library.borrowing;
 
 import cf.scenecho.library.account.Account;
 import cf.scenecho.library.book.Book;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class Borrowing {
     @Id
     @GeneratedValue
-    Long borrowingId;
+    private Long id;
     @ManyToOne
     @JoinColumn
-    Account borrower;
+    private Account borrower;
     @ManyToOne
     @JoinColumn
-    Book book;
-    String startDate;
+    private Book book;
+    private String startDate;
 }

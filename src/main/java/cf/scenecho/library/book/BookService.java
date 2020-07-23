@@ -24,6 +24,7 @@ public class BookService {
     }
 
     public void registerBook(Book book) {
+        book.setAvailable(true);
         bookRepository.save(book);
     }
 }

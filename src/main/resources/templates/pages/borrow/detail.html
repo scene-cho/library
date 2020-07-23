@@ -10,17 +10,15 @@
 <section layout:fragment="section">
 
     <h1>
-        <th:block th:text="${book.title}">Title</th:block>
-        <small class="text-muted">by
-            <th:block th:text="${book.author}">Author</th:block>
+        <th:block th:text="${borrowing.book}">Book</th:block>
+        <small class="text-muted"> is rent to
+            <th:block th:text="${borrowing.borrower}">Author</th:block>
         </small>
     </h1>
 
-    <form action="/borrowings" method="post">
-        <label>
-            <input type="hidden" th:value="${book.id}" name="bookId">
-        </label>
-        <button type="submit">Borrow</button>
+    <form th:action="@{/borrowings/{id}(id=${borrowing.id})}">
+        <input type="hidden" name="_method" value="delete">
+        <button type="submit">Return</button>
     </form>
 
 </section>

@@ -42,6 +42,13 @@ class BookServiceTest {
     }
 
     @Test
+    void Should_same_When_get() {
+        bookService.registerBook(book);
+        Book repoBook = bookService.getBook(book.getId());
+        assertSame(book, repoBook);
+    }
+
+    @Test
     void Should_throwException_When_findUnregisteredBook() {
         bookService.registerBook(book);
         Book repoBook = bookService.getBook(1L);
