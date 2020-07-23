@@ -1,5 +1,7 @@
 package cf.scenecho.library.account;
 
+import cf.scenecho.library.util.ExceptionMessage;
+import cf.scenecho.library.util.SessionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,41 +21,42 @@ public class AccountService {
     }
 
     public Account signUp(Account account) {
-        logger.debug("#signUp: account: {}", account);
         return accountRepository.save(validateAccountId(account));
     }
 
+    public void signIn(Account approachingAccount, HttpSession session) {
+        SessionUtil.setAccount(session, validateApproach(approachingAccount));
+    }
+
+    public void signOut(HttpSession session) {
+        SessionUtil.removeAccount(session);
+    }
+
+    public List<Account> accountList() {
+        return accountRepository.findAll();
+    }
+
+    // private
+
     private Account validateAccountId(Account account) {
+        logger.debug("- validating id... account: {}", account);
         accountRepository.findById(account.getUserId()).ifPresent(m -> {
-            throw new IllegalStateException("Duplicated Id.");
+            throw new IllegalStateException(ExceptionMessage.DUPLICATED_ID.toString());
         });
         return account;
     }
 
-    public void signIn(Account attemptingAccount, HttpSession session) {
-        logger.debug("#signIn: attemptingAccount: {}, session: {}", attemptingAccount, session);
-        session.setAttribute("account", validateAccount(attemptingAccount));
+    private Account validateApproach(Account approachingAccount) {
+        logger.debug("- validating approaching id... account: {}", approachingAccount);
+        Account repoAccount = accountRepository.findById(approachingAccount.getUserId())
+                .orElseThrow(() -> new IllegalStateException(ExceptionMessage.NON_EXISTING_ID.toString()));
+        return validatePassword(repoAccount, approachingAccount);
     }
 
-    private Account validateAccount(Account attemptingAccount) {
-        Account repoAccount = accountRepository.findById(attemptingAccount.getUserId())
-                .orElseThrow(() -> new IllegalStateException("Non-existing Id."));
-        return validatePassword(repoAccount, attemptingAccount);
-    }
-
-    private Account validatePassword(Account repoAccount, Account attemptingAccount) {
-        if (!repoAccount.getPassword().equals(attemptingAccount.getPassword()))
-            throw new IllegalStateException("Invalid Password.");
+    private Account validatePassword(Account repoAccount, Account approachingAccount) {
+        logger.debug("- validating approaching password... account: {}", approachingAccount);
+        if (!repoAccount.getPassword().equals(approachingAccount.getPassword()))
+            throw new IllegalStateException(ExceptionMessage.INVALID_PASSWORD.toString());
         return repoAccount;
-    }
-
-    public void signOut(HttpSession session) {
-        logger.debug("#signOut: session: {}", session);
-        session.removeAttribute("account");
-    }
-
-    public List<Account> accountList() {
-        logger.debug("#accountList");
-        return accountRepository.findAll();
     }
 }

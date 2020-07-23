@@ -4,7 +4,6 @@ import cf.scenecho.library.account.Account;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter

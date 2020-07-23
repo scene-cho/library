@@ -1,5 +1,7 @@
 package cf.scenecho.library.account;
 
+import cf.scenecho.library.util.ExceptionMessage;
+import cf.scenecho.library.util.SessionUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,11 +22,6 @@ class AccountServiceTest {
 
     Account inputAccount;
     HttpSession session;
-
-    final String SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT = "account";
-    final String EXCEPTION_MESSAGE_FOR_DUPLICATED_ID = "Duplicated Id.";
-    final String EXCEPTION_MESSAGE_FOR_INVALID_PASSWORD = "Invalid Password.";
-    final String EXCEPTION_MESSAGE_FOR_NON_EXISTING_ID = "Non-existing Id.";
 
     @BeforeEach
     void setAccountAndSession() {
@@ -51,14 +48,14 @@ class AccountServiceTest {
         accountService.signUp(inputAccount);
         Account anotherAccountWithSameId = Account.builder().userId(inputAccount.getUserId()).build();
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> accountService.signUp(anotherAccountWithSameId));
-        assertEquals(EXCEPTION_MESSAGE_FOR_DUPLICATED_ID, e.getMessage());
+        assertEquals(ExceptionMessage.DUPLICATED_ID.toString(), e.getMessage());
     }
 
     // Tests for signIn()
 
     @Test
     void Should_sessionHasNoAttribute_When_beforeSignIn() {
-        assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+        assertNull(session.getAttribute(SessionUtil.ACCOUNT));
     }
 
     @Test
@@ -66,7 +63,7 @@ class AccountServiceTest {
         Account account = accountService.signUp(inputAccount);
         Account validApproach = Account.builder().userId(inputAccount.getUserId()).password(inputAccount.getPassword()).build();
         accountService.signIn(validApproach, session);
-        Account accountFromSession = (Account) session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT);
+        Account accountFromSession = (Account) session.getAttribute(SessionUtil.ACCOUNT);
         assertEquals(account, accountFromSession);
     }
 
@@ -75,8 +72,8 @@ class AccountServiceTest {
         accountService.signUp(inputAccount);
         Account invalidPasswordApproach = Account.builder().userId(inputAccount.getUserId()).password("invalid").build();
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> accountService.signIn(invalidPasswordApproach, session));
-        assertEquals(EXCEPTION_MESSAGE_FOR_INVALID_PASSWORD, e.getMessage());
-        assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+        assertEquals(ExceptionMessage.INVALID_PASSWORD.toString(), e.getMessage());
+        assertNull(session.getAttribute(SessionUtil.ACCOUNT));
     }
 
     @Test
@@ -84,8 +81,8 @@ class AccountServiceTest {
         accountService.signUp(inputAccount);
         Account nonExistingIdApproach = Account.builder().userId("nonExistingId").password("password").build();
         IllegalStateException e = assertThrows(IllegalStateException.class, () -> accountService.signIn(nonExistingIdApproach, session));
-        assertEquals(EXCEPTION_MESSAGE_FOR_NON_EXISTING_ID, e.getMessage());
-        assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+        assertEquals(ExceptionMessage.NON_EXISTING_ID.toString(), e.getMessage());
+        assertNull(session.getAttribute(SessionUtil.ACCOUNT));
     }
 
     // Test for signOut()
@@ -94,9 +91,9 @@ class AccountServiceTest {
     void Should_sessionHasNoAttribute_When_signOut() {
         accountService.signUp(inputAccount);
         accountService.signIn(Account.builder().userId(inputAccount.getUserId()).password(inputAccount.getPassword()).build(), session);
-        assertNotNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+        assertNotNull(session.getAttribute(SessionUtil.ACCOUNT));
         accountService.signOut(session);
-        assertNull(session.getAttribute(SESSION_ATTRIBUTE_NAME_FOR_ACCOUNT));
+        assertNull(session.getAttribute(SessionUtil.ACCOUNT));
     }
 
 // todo

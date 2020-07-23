@@ -2,17 +2,18 @@ package cf.scenecho.library.article;
 
 import cf.scenecho.library.account.Account;
 import cf.scenecho.library.account.AccountRepository;
+import cf.scenecho.library.util.ExceptionMessage;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class ArticleServiceTest {
@@ -37,12 +38,16 @@ class ArticleServiceTest {
         articleRepository.deleteAll();
     }
 
-    // Tests for postArticle() and articleList()
-
     @Test
     void Should_empty_When_beforePost() {
         List<Article> articleList = articleService.articleList();
         assertThat(articleList).isEmpty();
+    }
+
+    @Test
+    void Should_throwException_When_findBeforePost() {
+        IllegalStateException e = assertThrows(IllegalStateException.class, () -> articleService.readArticle(1L));
+        assertEquals(ExceptionMessage.NON_EXISTING_ID.toString(), e.getMessage());
     }
 
     @Test
@@ -58,7 +63,4 @@ class ArticleServiceTest {
         articleService.postArticle(inputArticle, writer);
         assertEquals(1, articleService.articleList().size());
     }
-
-    // Tests for readArticle()
-
 }

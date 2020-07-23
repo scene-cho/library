@@ -1,7 +1,5 @@
 package cf.scenecho.library.account;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +13,6 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/accounts")
 public class AccountController {
     private final AccountService accountService;
-    private static final Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     public AccountController(AccountService accountService) {
@@ -24,40 +21,35 @@ public class AccountController {
 
     @GetMapping("/sign-up")
     public String signUpForm() {
-        logger.debug("#signUpForm");
         return "pages/account/sign-up-form";
     }
 
     @PostMapping("")
-    public String signUp(Account account) {
-        logger.debug("#signUp: account: {}", account);
+    public String signUp(Account account, HttpSession session) {
         accountService.signUp(account);
+        accountService.signIn(account, session);
         return "redirect:/";
     }
 
     @GetMapping("/sign-in")
     public String signInForm() {
-        logger.debug("#signInForm");
         return "pages/account/sign-in-form";
     }
 
     @PostMapping("/sign-in")
     public String signIn(Account account, HttpSession session) {
-        logger.debug("#signIn: account: {}, session: {}", account, session);
         accountService.signIn(account, session);
         return "redirect:/";
     }
 
     @PostMapping("/sign-out")
     public String signOut(HttpSession session) {
-        logger.debug("#signOut: session: {}", session);
         accountService.signOut(session);
         return "redirect:/";
     }
 
     @GetMapping("")
     public String accountList(Model model) {
-        logger.debug("#accountList: Model: {}", model);
         model.addAttribute("accounts", accountService.accountList());
         return "pages/account/main";
     }
